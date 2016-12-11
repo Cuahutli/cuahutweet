@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# is a root manage.py
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -118,3 +119,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    # will not be server, long term storage
+    os.path.join(BASE_DIR, "static-storage"),
+]
+
+#add root STATICS
+# will be served
+STATIC_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "static-serve")#CDN
+
+#STATIC_ROOT = '/webapps/abc/static/'
