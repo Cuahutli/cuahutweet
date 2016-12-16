@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {% for obj in object_list  %}
-        <p> {{ obj.content }}</p>
-    {% endfor %}
-</body>
-</html>
+{% for obj in object_list  %}
+    {{ obj.content }} <br/>
+    {{ obj.user }} <br/>
+    {{ obj.timestamp }} <br/>
+    <p> publicado hace : {{ obj.timestamp|timesince }} </p> <br/><br/><br/>
+{% endfor %}
