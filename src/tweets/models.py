@@ -6,12 +6,14 @@ class Tweet(models.Model):
     """
     Description: Model Description
     """
-    content 	= models.TextField()
-    
+    #user
+    content 	= models.TextField(max_length=140)
+    updated		= models.DateField(auto_now=True)
+    timestamp	= models.DateField(auto_now_add=True)
 
 
     def __str__(self):
-    	return str(self.content) + "   id:  " + str(self.id)
+    	return str(self.content)
 
     class Meta:
         pass
