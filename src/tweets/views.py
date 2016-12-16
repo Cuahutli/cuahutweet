@@ -16,12 +16,12 @@ from .models import Tweet
 
 
 class TweetDetailView(DetailView):
-    template_name = 'tweets/detail_view.html'
+    #template_name = 'tweets/detail_view.html'
     queryset = Tweet.objects.all()
 
     def get_object(self):
         return Tweet.objects.get(id=1)
 
 class TweetListView(ListView):
-    template_name = 'tweets/list_view.html'
+    #template_name = 'tweets/list_view.html'
     queryset = Tweet.objects.all()

@@ -1,0 +1,6 @@
+{% for obj in object_list  %}
+    {{ obj.content }} <br/>
+    {{ obj.user }} <br/>
+    {{ obj.timestamp }} <br/>
+    <p> publicado hace : {{ obj.timestamp|timesince }} </p> <br/><br/><br/>
+{% endfor %}
