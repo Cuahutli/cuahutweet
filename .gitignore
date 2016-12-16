@@ -4,4 +4,4 @@ Scripts/
 pip*
 tcl/
 static-serve/
-*.sublime-workspace
+.idea/
