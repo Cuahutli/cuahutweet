@@ -3,4 +3,7 @@
     {{ obj.user }} <br/>
     {{ obj.timestamp }} <br/>
     <p> publicado hace : {{ obj.timestamp|timesince }} </p> <br/><br/><br/>
+    {% empty %}
+    <p> No hay tweets en este momento</p>
 {% endfor %}
+

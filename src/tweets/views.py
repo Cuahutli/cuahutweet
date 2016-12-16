@@ -25,3 +25,9 @@ class TweetDetailView(DetailView):
 class TweetListView(ListView):
     #template_name = 'tweets/list_view.html'
     queryset = Tweet.objects.all()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TweetListView, self).get_context_data(*args, **kwargs)
+        #context["another_list"] = Tweet.objects.all()
+        #print(context)
+        return context
