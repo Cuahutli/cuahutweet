@@ -1,7 +1,5 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView, ListView, CreateView
-from django.forms.utils import ErrorList
-from django import forms
 from .models import Tweet
 from .forms import TweetModelForm
 from .mixins import FormUserNeededMixin
@@ -9,23 +7,11 @@ from .mixins import FormUserNeededMixin
 # Create your views here.
 
 # Create
-## Whitout mixins Class declaration
-##class TweetCreateView(CreateView):
 class TweetCreateView(FormUserNeededMixin, CreateView):
     #queryset = Tweet.objects.all()
     form_class = TweetModelForm
     template_name = 'tweets/create_view.html'
     success_url = '/tweet/'
-
-    #if whithout mixins class then use this functions (is the same in mixins)
-    # def form_valid(self, form):
-    #     if self.request.user.is_authenticated():
-    #         form.instance.user = self.request.user
-    #         return super(TweetCreateView, self).form_valid(form)
-    #     else:
-    #         form._errors[forms.forms.NON_FIELD_ERRORS] = ErrorList(["el usuario debe estar logueado para continuar"])
-    #         return self.form_invalid(form)
-
 
 # is same the TweetCreateView
 # def tweet_create_view(request):
