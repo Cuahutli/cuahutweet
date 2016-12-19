@@ -1,5 +1,9 @@
-<form action="" method="POST">{% csrf_token %}
-    <p>Estás seguro que deseas borrar the tweet "{{ object }}"?</p>
-    <input type="submit" value="Confirm" />
-</form>
-</form>
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="" method="POST">{% csrf_token %}
+        <p>Estás seguro que deseas borrar the tweet "{{ object }}"?</p>
+        <input type="submit" value="Confirm" />
+    </form>
+{% endblock content %}
+
