@@ -1,17 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% include "tweets/search_form.html" %}
-    <br />
-    {% for obj in object_list  %}
-        {{ obj.content }} <br/>
-        {{ obj.user }} <br/>
-        {{ obj.timestamp }} <br/>
-        <p> publicado hace : {{ obj.timestamp|timesince }} </p> <br/><br/><br/>
-        {% empty %}
-            {% if request.GET.q %}
-                <p> No se encontró ningún tweet que contenga el contenido buscado</p>
-            {% else %}
-                <p> No hay tweets en este momento</p>
-            {% endif %}
-    {% endfor %}
+    <div class="row">
+        <div class="com-sm-8 col-sm-offset-2">
+            {% include "tweets/search_form.html" %}
+            <br />
+            {% for object in object_list  %}
+                <div class="media">
+                  <div class="media-left">
+                    <a href="#">
+                        {% if object.image %}
+                            <img class="media-object" src="..." alt="...">
+                        {% endif %}
+                    </a>
+                  </div>
+                  <div class="media-body">
+                    {{ object.content }} <br />
+                      por: {{ object.user }} | hace: {{ object.timestamp|timesince }} | <a href="{{ object.get_absolute_url }}">Ver</a>
+                  </div>
+                </div>
+                <hr />
+                {% empty %}
+                    {% if request.GET.q %}
+                        <p> No se encontró ningún tweet que contenga el contenido buscado</p>
+                    {% else %}
+                        <p> No hay tweets en este momento</p>
+                    {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock content %}
