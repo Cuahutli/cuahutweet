@@ -1,10 +1,6 @@
-<div class="row">
-    <div class="col-sm-12 text-right">
-        <form class="form-inline" action="{% url 'tweet:list' %}" method="GET" >
-            <div class="form-group">
-                <input class="form-control" type="text" name="q" placeholder="¿Qué buscamos?" value="{{ request.GET.q }}" />
-            </div>
-            <input class="btn btn-default" type="submit" value="Buscar" />
-        </form>
+<form class="navbar-form navbar-left" action="{% url 'tweet:list' %}" method="GET" >
+    <div class="form-group">
+        <input class="form-control" type="text" name="q" placeholder="¿Qué buscamos?" value="{{ request.GET.q }}" />
     </div>
-</div>
+    <input class="btn btn-default" type="submit" value="Buscar" />
+</form>
