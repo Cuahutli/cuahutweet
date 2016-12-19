@@ -12,8 +12,8 @@ class Tweet(models.Model):
     user 		= models.ForeignKey(settings.AUTH_USER_MODEL)
     #content 	= models.TextField(max_length=140)
     content     = models.TextField(max_length=140, validators=[validate_content])
-    updated		= models.DateField(auto_now=True)
-    timestamp	= models.DateField(auto_now_add=True)
+    updated		= models.DateTimeField(auto_now=True)
+    timestamp	= models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
