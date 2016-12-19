@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.db.models import Q
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -58,7 +59,10 @@ class TweetListView(ListView):
         print(self.request.GET)
         query = self.request.GET.get("q", None)
         if query is not None:
-            qs = qs.filter(content__icontains=query)
+            qs = qs.filter(
+                Q(content__icontains=query) |
+                Q(user__username__icontains=query)
+            )
         return qs
 
     def get_context_data(self, *args, **kwargs):
