@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<form action="" method="POST">{% csrf_token %}
+    <p>Estás seguro que deseas borrar the tweet "{{ object }}"?</p>
+    <input type="submit" value="Confirm" />
+</form>
+</form>
