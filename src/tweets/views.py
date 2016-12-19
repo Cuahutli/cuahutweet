@@ -16,7 +16,7 @@ from .mixins import FormUserNeededMixin, UserOwnerMixin
 class TweetCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
     form_class = TweetModelForm
     template_name = 'tweets/create_view.html'
-    success_url = '/tweet/'
+    #success_url = reverse_lazy("tweet:detail")
     login_url = '/admin/'
 
 
@@ -25,14 +25,17 @@ class TweetUpdateView(LoginRequiredMixin, UserOwnerMixin, UpdateView):
     queryset = Tweet.objects.all()
     form_class = TweetModelForm
     template_name = 'tweets/update_view.html'
-    success_url = '/tweet/'
+    #success_url = '/tweet/'
     login_url = '/admin/'
 
 # Delete
 class TweetDeleteView(LoginRequiredMixin, DeleteView):
     model = Tweet
     template_name = 'tweets/delete_confirm.html'
-    success_url = reverse_lazy("home")
+    # para usar el reverse se utiliza lo que está en el tag name en las urls, cuando se usa include, se crea un namespace
+    # y se llama namespace:name de la url.
+    #success_url = reverse_lazy("home")
+    success_url = reverse_lazy("tweet:list")
 
 # List/Search
 
