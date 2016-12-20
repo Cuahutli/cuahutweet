@@ -1,23 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% for object in object_list  %}
-        <div class="row">
-            <div class="col-sm-3 col-xs-12" style="background-color: yellow;">
-                <h1>{{ object.user }}</h1>
-            </div>
-            <div class="col-sm-9">
-                {{ object.content }} <br /> Creado por {{  object.user }} | hace: {{ object.timestamp|timesince }}| <a
-                    href="{{ object.get_absolute_url }}">Ver</a>
-            </div>
-            <div class="col-sm-12">
-                <hr />
-            </div>
+    <div class="row">
+        <div class="col-sm-3 col-xs-12" style="background-color: red;">
+            <h1>
+                {{ request.user }}
+            </h1>
         </div>
-        {% empty %}
-            {% if request.GET.q %}
-                <p>No hay tweets</p>
-            {% else %}
-                <p>No tenemos tweets</p>
+        <div class="col-sm-9">
+            {% if not request.GET.q %}
+                <div class="">
+                    {% include "tweets/form.html" with form=create_form action_url=create_url btn_title="Tweet" %}
+                </div>
             {% endif %}
-    {% endfor %}
+            <hr />
+            {% for object in object_list  %}
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        {% if object.image %}
+                            <img src="" alt="" class="media-object">
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="media-body">
+                    {{ object.content }} <br /> Creado por {{  object.user }} | hace: {{ object.timestamp|timesince }}| <a
+                        href="{{ object.get_absolute_url }}">Ver</a>
+                </div>
+            </div>
+            <hr />
+            {% empty %}
+                {% if request.GET.q %}
+                    <p>No hay tweets</p>
+                {% else %}
+                    <p>No tenemos tweets</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock content %}
