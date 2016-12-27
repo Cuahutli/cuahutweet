@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'rest_framework',
 
     #myapps
+    'accounts',
     'tweets',
+
 ]
 
 MIDDLEWARE = [
