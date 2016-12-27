@@ -1,4 +1,31 @@
 {% extends 'base.html' %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            console.log("working");
+
+            $.ajax({
+                // forma de usarlo desde un .js separado
+                //url:"/api/tweet/",
+                //esto funcionaría si se pone directo en el template, si se pusiera en un archivo .js separado
+                // YA NO FUNCINARIA, se usaría como se muestra en la asignación a url de arriba.
+                url: "{% url 'tweet-api:list' %}",
+                method:"GET",
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (data) {
+                    console.log("error");
+                    console.log(data)
+                }
+
+            })
+
+
+        });
+    </script>
+{%  endblock scripts %}
 {% block content %}
     <div class="row">
         <div class="col-sm-3 col-xs-12" style="background-color: red;">
