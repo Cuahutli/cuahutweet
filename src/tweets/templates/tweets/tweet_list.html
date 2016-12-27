@@ -16,7 +16,6 @@
         }
 
         $(document).ready(function () {
-            console.log("working");
             var query = getParameterByName('q');
             var tweetList = [];
             function parseTweets() {
@@ -34,27 +33,59 @@
                     })
                 }
             }
-            
-            $.ajax({
-                // forma de usarlo desde un .js separado
-                url:"/api/tweet/?q=somequery",
-                //esto funcionaría si se pone directo en el template, si se pusiera en un archivo .js separado
-                // YA NO FUNCINARIA, se usaría como se muestra en la asignación a url de arriba.
-                //url: "{% url 'tweet-api:list' %}",
-                data:{
-                    "q": query,
-                },
-                method:"GET",
-                success: function (data) {
-                    tweetList = data;
-                    parseTweets();
 
-                },
-                error: function (data) {
-                    console.log("error");
-                    console.log(data)
-                }
+            function fecthTweets() {
+                console.log("fetching....")
+                $.ajax({
+                    // forma de usarlo desde un .js separado
+                    url:"/api/tweet/?q=somequery",
+                    //esto funcionaría si se pone directo en el template, si se pusiera en un archivo .js separado
+                    // YA NO FUNCINARIA, se usaría como se muestra en la asignación a url de arriba.
+                    //url: "{% url 'tweet-api:list' %}",
+                    data:{
+                        "q": query,
+                    },
+                    method:"GET",
+                    success: function (data) {
+                        tweetList = data;
+                        parseTweets();
 
+                    },
+                    error: function (data) {
+                        console.log("error");
+                        console.log(data)
+                    }
+
+                })
+            }
+
+            fecthTweets()
+
+            $("#tweet-form").submit(function (event) {
+                event.preventDefault();
+                var this_ = $(this);
+                var formData = this_.serialize();
+
+                $.ajax({
+                    // forma de usarlo desde un .js separado
+                    url:"/api/tweet/create/",
+                    //esto funcionaría si se pone directo en el template, si se pusiera en un archivo .js separado
+                    // YA NO FUNCINARIA, se usaría como se muestra en la asignación a url de arriba.
+                    //url: "{% url 'tweet-api:list' %}",
+                    data: formData,
+                    method:"POST",
+                    success: function (data) {
+                        //console.log(data);
+                        fecthTweets();
+
+                    },
+                    error: function (data) {
+                        console.log("error");
+                        console.log(data)
+                        console.log(data.status)
+                    }
+
+                })
             })
 
 
@@ -71,7 +102,7 @@
         <div class="col-sm-9">
             {% if not request.GET.q %}
                 <div class="">
-                    {% include "tweets/form.html" with form=create_form action_url=create_url btn_title="Tweet" %}
+                    {% include "tweets/form.html" with form=create_form action_url=create_url btn_title="Tweet" form_id="tweet-form" %}
                 </div>
                 <hr />
             {% endif %}
