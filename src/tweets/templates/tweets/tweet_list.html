@@ -2,25 +2,53 @@
 
 {% block scripts %}
     <script>
+
+        function getParameterByName(name, url) {
+            if (!url) {
+              url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
         $(document).ready(function () {
             console.log("working");
-
-            $.ajax({
-                // forma de usarlo desde un .js separado
-                url:"/api/tweet/",
-                //esto funcionaría si se pone directo en el template, si se pusiera en un archivo .js separado
-                // YA NO FUNCINARIA, se usaría como se muestra en la asignación a url de arriba.
-                //url: "{% url 'tweet-api:list' %}",
-                method:"GET",
-                success: function (data) {
-                    $.each(data, function (key, value) {
+            var query = getParameterByName('q');
+            var tweetList = [];
+            function parseTweets() {
+                if (tweetList == 0){
+                    $("#tweet-container").text("No encontramos ningún tweet")
+                }else {
+                    // tweets exists, parse them
+                    $.each(tweetList, function (key, value) {
                         var tweetKey = key;
                         var tweetContent = value.content;
                         var tweetUser = value.user;
                         $("#tweet-container").append(
-                            "<div class=\"media\"> <div class=\"media-body\">" + tweetContent + "<br/> via: " + tweetUser.username  + " | " + "<a href='#'>View</a>" +"</div></div><hr/>"
+                            "<div class=\"media\"> <div class=\"media-body\">" + tweetContent + "<br/> via: " + tweetUser.username + " | " + "<a href='#'>View</a>" + "</div></div><hr/>"
                         );
                     })
+                }
+            }
+            
+            $.ajax({
+                // forma de usarlo desde un .js separado
+                url:"/api/tweet/?q=somequery",
+                //esto funcionaría si se pone directo en el template, si se pusiera en un archivo .js separado
+                // YA NO FUNCINARIA, se usaría como se muestra en la asignación a url de arriba.
+                //url: "{% url 'tweet-api:list' %}",
+                data:{
+                    "q": query,
+                },
+                method:"GET",
+                success: function (data) {
+                    tweetList = data;
+                    parseTweets();
+
                 },
                 error: function (data) {
                     console.log("error");
@@ -51,14 +79,6 @@
             <div id="tweet-container">
 
             </div>
-            {% for object in object_list  %}
-            {% empty %}
-                {% if request.GET.q %}
-                    <p>No hay tweets</p>
-                {% else %}
-                    <p>No tenemos tweets</p>
-                {% endif %}
-            {% endfor %}
         </div>
     </div>
 {% endblock content %}
