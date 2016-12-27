@@ -7,13 +7,20 @@
 
             $.ajax({
                 // forma de usarlo desde un .js separado
-                //url:"/api/tweet/",
+                url:"/api/tweet/",
                 //esto funcionaría si se pone directo en el template, si se pusiera en un archivo .js separado
                 // YA NO FUNCINARIA, se usaría como se muestra en la asignación a url de arriba.
-                url: "{% url 'tweet-api:list' %}",
+                //url: "{% url 'tweet-api:list' %}",
                 method:"GET",
                 success: function (data) {
-                    console.log(data);
+                    $.each(data, function (key, value) {
+                        var tweetKey = key;
+                        var tweetContent = value.content;
+                        var tweetUser = value.user;
+                        $("#tweet-container").append(
+                            "<li>" + tweetContent + "<br/> via: " + tweetUser.username  + " | " + "<a href='#'>View</a>" +"</li>"
+                        );
+                    })
                 },
                 error: function (data) {
                     console.log("error");
@@ -27,6 +34,10 @@
     </script>
 {%  endblock scripts %}
 {% block content %}
+    <div id="tweet-container">
+
+    </div>
+
     <div class="row">
         <div class="col-sm-3 col-xs-12" style="background-color: red;">
             <h1>
