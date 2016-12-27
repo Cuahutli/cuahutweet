@@ -74,31 +74,62 @@
 
             fecthTweets()
 
+            var charsStart = 140;
+            var charsCurrent = 0;
+
+            $("#tweet-form").append("<span id='tweetCharsLeft'>" + charsStart + "</span>");
+
+            $("#tweet-form textarea").keyup(function (event) {
+                var tweetValue = $(this).val()
+                charsCurrent = charsStart - tweetValue.length;
+                var spanChars = $("#tweetCharsLeft")
+                $("#tweetCharsLeft").text(charsCurrent);
+
+                if (charsCurrent > 0){
+                    //remove clases
+                    spanChars.removeClass("gray-color");
+                    spanChars.removeClass("red-color");
+                }else if (charsCurrent == 0){
+                    //add gray class
+                    spanChars.removeClass("red-color");
+                    spanChars.addClass("gray-color");
+                }else if (charsCurrent < 0){
+                    // add red class
+                    spanChars.removeClass("gray-color");
+                    spanChars.addClass("red-color");
+                }
+
+
+            })
+
             $("#tweet-form").submit(function (event) {
                 event.preventDefault();
                 var this_ = $(this);
                 var formData = this_.serialize();
+                if (charsCurrent >= 0){
+                    $.ajax({
+                        // forma de usarlo desde un .js separado
+                        url:"/api/tweet/create/",
+                        //esto funcionaría si se pone directo en el template, si se pusiera en un archivo .js separado
+                        // YA NO FUNCINARIA, se usaría como se muestra en la asignación a url de arriba.
+                        //url: "{% url 'tweet-api:list' %}",
+                        data: formData,
+                        method:"POST",
+                        success: function (data) {
+                            this_.find("input[type=text], textarea").val("");
+                            attachTweet(data, true)
 
-                $.ajax({
-                    // forma de usarlo desde un .js separado
-                    url:"/api/tweet/create/",
-                    //esto funcionaría si se pone directo en el template, si se pusiera en un archivo .js separado
-                    // YA NO FUNCINARIA, se usaría como se muestra en la asignación a url de arriba.
-                    //url: "{% url 'tweet-api:list' %}",
-                    data: formData,
-                    method:"POST",
-                    success: function (data) {
-                        this_.find("input[type=text], textarea").val("");
-                        attachTweet(data, true)
+                        },
+                        error: function (data) {
+                            console.log("error");
+                            console.log(data)
+                            console.log(data.status)
+                        }
 
-                    },
-                    error: function (data) {
-                        console.log("error");
-                        console.log(data)
-                        console.log(data.status)
-                    }
-
-                })
+                    })
+                }else{
+                    console.log("no podemos enviar este tweet es demasiado largo")
+                }
             })
 
 
