@@ -25,6 +25,9 @@ class Tweet(models.Model):
     def get_absolute_url(self):
         return reverse("tweet:detail", kwargs={"pk":self.pk})
 
+    class Meta:
+        ordering = ['-timestamp', 'content']
+
     """
         esta es otra manera de hacer la validación similar a lo que está en form.py
          def clean_content(self, *args, **kwargs):
