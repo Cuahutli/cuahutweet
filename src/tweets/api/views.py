@@ -20,7 +20,9 @@ class TweetListAPIView(generics.ListAPIView):
 
     def get_queryset(self, *args, **kwargs):
         im_following = self.request.user.profile.get_following() #none if is a zero
-        qs = Tweet.objects.filter(user__in=im_following)
+        qs1 = Tweet.objects.filter(user__in=im_following) ## following tweets
+        qs2 = Tweet.objects.filter(user=self.request.user) ## my tweets
+        qs = (qs1 | qs2).distinct() # both tweets
         #qs = Tweet.objects.all()
         query = self.request.GET.get("q", None)
         if query is not None:
