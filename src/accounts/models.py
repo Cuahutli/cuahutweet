@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse_lazy
+from django.db.models.signals import post_save
 # Create your models here.
 
 class UserProfileManager(models.Manager):
@@ -59,3 +60,17 @@ class UserProfile(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy("profiles:detail", kwargs={"username": self.user.username})
+
+
+# cfe = User.objects.first()
+# User.objects.get_or_create #(user_obj, true/false)
+# cfe.save()
+
+def post_save_user_receiver(sender, instance, created, *args, **kwargs ):
+    # new user created add a new user_profile automatically
+    if created:
+        new_profile = UserProfile.objects.get_or_create(user=instance)
+        # celery + redis
+        # deferred task
+
+post_save.connect(post_save_user_receiver, sender=settings.AUTH_USER_MODEL)
