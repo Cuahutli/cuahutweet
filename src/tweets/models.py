@@ -8,6 +8,8 @@ from django.utils import timezone
 from django.db.models.signals import post_save
 from .validators import validate_content
 
+
+from hashtags.signals import parsed_hashtags
 # Create your models here.
 
 class TweetManager(models.Manager):
@@ -78,6 +80,7 @@ def tweet_save_receiver(sender, instance, created, *args, **kwargs):
 
         hash_regex = r'#(?P<hashtag>[\w\d-]+)'
         hashtags = re.findall(hash_regex, instance.content)
+        parsed_hashtags.send(sender=instance.__class__, hashtag_list=hashtags)
         # send hashtag signal to user here
 
 
