@@ -20,6 +20,24 @@
             var tweetList = [];
             var nextTweetUrl;
 
+            $(document.body).on("click", ".retweet", function (e) {
+                e.preventDefault();
+                console.log("clicked..")
+                var url = "/api" + $(this).attr("href");
+                $.ajax({
+                    method: "GET",
+                    url: url ,
+                    success: function (data) {
+                        attachTweet(data, true,true);
+                        updateHashLinks()
+                    },
+                    error: function (data) {
+                        console.log("error, no pudimos retweetear haz un log del data...");
+
+                    }
+                })
+            })
+
             function updateHashLinks() {
                 $(".media-body").each(function (data) {
                     var hashtagRegex = /(^|\s)#([\w\d-]+)/g
@@ -36,10 +54,10 @@
                 if(retweet && tweetValue.parent){
                     // retweet
                     var mainTweet = tweetValue.parent;
-                    tweetFormattedHtml = "<div class=\"media\"><div class=\"media-body\"> <span class='gray-color'>Retweet via <a href='" + mainTweet.user.url + "'> " + mainTweet.user.username + " </a> on " + dateDisplay + "</span><br/>" + mainTweet.content + "<br/> via: <a href='" + tweetUser.url + "'>" + tweetUser.username  + "</a> | " + mainTweet.date_display + " | " + "<a href='/tweet/" + mainTweet.id  + "'" + ">View</a>" + "</div></div><hr/>"
+                    tweetFormattedHtml = "<div class=\"media\"><div class=\"media-body\"> <span class='gray-color'>Retweet via <a href='" + mainTweet.user.url + "'> " + mainTweet.user.username + " </a> on " + dateDisplay + "</span><br/>" + mainTweet.content + "<br/> via: <a href='" + tweetUser.url + "'>" + tweetUser.username  + "</a> | " + mainTweet.date_display + " | " + "<a href='/tweet/" + mainTweet.id  + "'" + ">View</a>" + " | " + "<a class='retweet' href='/tweet/" + tweetValue.id  + "/retweet'" + ">Retweet</a>" + "</div></div><hr/>"
                 }else{
                     // new tweet
-                    tweetFormattedHtml = "<div class=\"media\"><div class=\"media-body\">" + tweetContent + "<br/> via: <a href='" + tweetUser.url + "'>" + tweetUser.username + "</a> | " + dateDisplay + " | " + "<a href='/tweet/" + tweetValue.id  + "'" + ">View</a>" + " | " + "<a href='/tweet/" + tweetValue.id  + "/retweet'" + ">Retweet</a>" + "</div></div><hr/>"
+                    tweetFormattedHtml = "<div class=\"media\"><div class=\"media-body\">" + tweetContent + "<br/> via: <a href='" + tweetUser.url + "'>" + tweetUser.username + "</a> | " + dateDisplay + " | " + "<a href='/tweet/" + tweetValue.id  + "'" + ">View</a>" + " | " + "<a class='retweet' href='/tweet/" + tweetValue.id  + "/retweet'" + ">Retweet</a>" + "</div></div><hr/>"
                 }
 
 
