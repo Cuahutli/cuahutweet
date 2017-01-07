@@ -1,6 +1,5 @@
 from django.utils.timesince import timesince
 from rest_framework import serializers
-
 from accounts.api.serializers import UserDisplaySerializer
 from tweets.models import Tweet #from ..models import Tweet
 
@@ -31,7 +30,7 @@ class TweetModelSerializer(serializers.ModelSerializer):
     user = UserDisplaySerializer(read_only=True) #write_only
     date_display = serializers.SerializerMethodField()
     timesince = serializers.SerializerMethodField()
-    parent  = ParentTweetModelSerializer()
+    parent  = ParentTweetModelSerializer(read_only=True)
     class Meta:
         model = Tweet
         fields = [
