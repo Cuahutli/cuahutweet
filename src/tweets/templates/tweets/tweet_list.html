@@ -28,13 +28,19 @@
                 })
             }
 
-            function attachTweet(tweetValue, preppend){
+            function attachTweet(tweetValue, preppend, retweet){
                 var tweetContent = tweetValue.content;
                 var tweetUser = tweetValue.user;
                 var dateDisplay = tweetValue.date_display;
-                var timeSince = tweetValue.timesince;
-                var isRetweet = tweetValue.is_retweet;
-                var tweetFormattedHtml = "<div class=\"media\">"+ isRetweet + "<div class=\"media-body\">" + tweetContent + "<br/> via: <a href='" + tweetUser.url + "'>" + tweetUser.username + "</a> | " + dateDisplay + " | " + "<a href='/tweet/" + tweetValue.id  + "'" + ">View</a>" + "</div></div><hr/>"
+                var tweetFormattedHtml;
+                if(retweet && tweetValue.parent){
+                    var mainTweet = tweetValue.parent;
+                    tweetFormattedHtml = "<div class=\"media\"><div class=\"media-body\"> <span class='gray-color'>Retweet via " + tweetUser.username + " on " + dateDisplay + "</span><br/>" + mainTweet.content + "<br/> via: <a href='" + tweetUser.url + "'>" + mainTweet.user.username + "</a> | " + mainTweet.date_display + " | " + "<a href='/tweet/" + mainTweet.id  + "'" + ">View</a>" + "</div></div><hr/>"
+                }else{
+                    tweetFormattedHtml = "<div class=\"media\"><div class=\"media-body\">" + tweetContent + "<br/> via: <a href='" + tweetUser.url + "'>" + tweetUser.username + "</a> | " + dateDisplay + " | " + "<a href='/tweet/" + tweetValue.id  + "'" + ">View</a>" + "</div></div><hr/>"
+                }
+
+
                 if (preppend == true){
                     $("#tweet-container").prepend(
                         tweetFormattedHtml
@@ -52,7 +58,12 @@
                     // tweets exists, parse them
                     $.each(tweetList, function (key, value) {
                         var tweetKey = key;
-                        attachTweet(value);
+                        if (value.parent){
+                            attachTweet(value, false, true);
+                        }else{
+                            attachTweet(value);
+                        }
+
                     })
                 }
             }
