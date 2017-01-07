@@ -1,7 +1,11 @@
+import re
+
 from django.conf import settings
 from django.urls import reverse
 from django.db import models
+
 from django.utils import timezone
+from django.db.models.signals import post_save
 from .validators import validate_content
 
 # Create your models here.
@@ -63,3 +67,19 @@ class Tweet(models.Model):
     #     if content == "abc":
     #         raise ValidationError(" El contenido No puede ser ABC")
     #     return super(Tweet, self).clean(*args, **kwargs)
+
+
+def tweet_save_receiver(sender, instance, created, *args, **kwargs):
+    if created and not instance.parent:
+        # nofity a user
+        user_regex = r'@(?P<username>[\w.@+-]+)'
+        usernames = re.findall(user_regex, instance.content)
+        # send notification to user here
+
+        hash_regex = r'#(?P<hashtag>[\w\d-]+)'
+        hashtags = re.findall(hash_regex, instance.content)
+        # send hashtag signal to user here
+
+
+#signal
+post_save.connect(tweet_save_receiver, sender=Tweet)
