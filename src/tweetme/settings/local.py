@@ -142,3 +142,7 @@ STATIC_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "static-serve")#CDN
 #STATIC_ROOT = '/webapps/abc/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+#SESSION_COOKIE_AGE = 30
+#SESSION_COOKIE_NAME = 'samaosessionid'
+#SESSION_SAVE_EVERY_REQUEST = True
