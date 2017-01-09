@@ -25,17 +25,6 @@
                 </a>
             </p>
 
-        </div>
-        <div class="col-sm-9 col-xs-12">
-            <h1>Tweets</h1>
-
-
-            <div id="tweet-container" data-url='/api/{{ object.username }}/tweet/'>
-
-            </div>
-            <a href="#" id="loadmore">Cargar más tweets</a>
-
-
             <hr />
             <h1>Siguiendo a <small>{{ object.profile.get_following.count }}</small>:</h1>
             {% for user in object.profile.get_following %}
@@ -51,6 +40,17 @@
             {% empty %}
                 <h4>En este momento nadie te sigue.</h4>
             {% endfor %}
+        </div>
+        <div class="col-sm-9 col-xs-12">
+            <h1>Tweets</h1>
+
+
+            <div id="tweet-container" data-url='/api/{{ object.username }}/tweet/'>
+
+            </div>
+            <a href="#" id="loadmore">Cargar más tweets</a>
+
+
         </div>
     </div>
 {% endblock content%}
