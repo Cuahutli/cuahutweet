@@ -134,7 +134,7 @@
                 if(tweetValue.parent){
                     // there is a retweet
                     mainTweet = tweetValue.parent;
-                    retweet = "<span class='gray-color'>Retweet via <a href='" + mainTweet.user.url + "'> " + mainTweet.user.username + " </a> on " + mainTweet.date_display + "</span><br/>"
+                    preContent = "<span class='gray-color'>Retweet via <a href='" + mainTweet.user.url + "'> " + mainTweet.user.username + " </a> on " + mainTweet.date_display + "</span><br/>"
                 }
                  tweetContent=tweetValue.content + "<br/> via: <a href='" + tweetValue.user.url + "'>" + tweetValue.user.username + "</a> | " + tweetValue.date_display + " | " + "<a href='/tweet/" + tweetValue.id  + "'" + ">View</a>" + " | " + "<a class='retweet' href='/tweet/" + tweetValue.id  + "/retweet'" + ">Retweet</a>" + "| <a href='#' class='tweet-like' data-id=" + tweetValue.id + "> " + verb +" ("+ tweetValue.likes + ") </a>";
                 if (preContent){
