@@ -131,12 +131,16 @@
                 var preContent;
                 var tweetContent;
                 var container;
-                if(tweetValue.parent){
+                var isReply = tweetValue.reply;
+                if(tweetValue.parent && !isReply){
                     // there is a retweet
                     mainTweet = tweetValue.parent;
                     preContent = "<span class='gray-color'>Retweet via <a href='" + mainTweet.user.url + "'> " + mainTweet.user.username + " </a> on " + mainTweet.date_display + "</span><br/>"
+                }else if (tweetValue.parent && isReply){
+                    mainTweet = tweetValue.parent;
+                    preContent = "<span class='gray-color'>Reply to <a href='" + mainTweet.user.url + "'> @" + mainTweet.user.username + " </a></span><br/>"
                 }
-                 tweetContent=tweetValue.content + "<br/> via: <a href='" + tweetValue.user.url + "'>" + tweetValue.user.username + "</a> | " + tweetValue.date_display + " | " + "<a href='/tweet/" + tweetValue.id  + "'" + ">View</a>" + " | " + "<a class='retweet' href='/tweet/" + tweetValue.id  + "/retweet'" + ">Retweet</a>" + "| <a href='#' class='tweet-like' data-id=" + tweetValue.id + "> " + verb +" ("+ tweetValue.likes + ") </a>";
+                 tweetContent=tweetValue.content + "<br/> via: <a href='" + tweetValue.user.url + "'>" + tweetValue.user.username + "</a> | " + tweetValue.date_display + " | " + "<a href='/tweet/" + tweetValue.id  + "'" + ">View</a>" + " | " + "<a class='retweet' href='/tweet/" + tweetValue.id  + "/retweet'" + ">Retweet</a>" + "| <a href='#' class='tweet-like' data-id=" + tweetValue.id + "> " + verb +" ("+ tweetValue.likes + ") </a>" + "| <a href='#' class='tweet-reply' data-id=" + tweetValue.id + "> Reply </a>";
                 if (preContent){
                     container = "<div class=\"media\"><div class=\"media-body\">" + preContent + tweetContent + "</div></div><hr />";
                 }else{
