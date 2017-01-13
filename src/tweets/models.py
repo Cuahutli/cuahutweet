@@ -9,7 +9,7 @@ from django.db.models.signals import post_save
 from .validators import validate_content
 
 
-from hashtags.signals import parsed_hashtags
+from src.hashtags.signals import parsed_hashtags
 # Create your models here.
 
 class TweetManager(models.Manager):
@@ -58,7 +58,7 @@ class Tweet(models.Model):
 
     objects = TweetManager()
     def __str__(self):
-    	return str(self.content)
+        return str(self.content)
 
     # haciendo esta función ya no sería necesario en la vista utilizar succes_url
     # aún cuando se implemente este metodo, si se usa success_url  reempleazaría a lo que regresa get_absolute_url()
