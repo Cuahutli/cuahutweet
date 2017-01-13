@@ -73,22 +73,16 @@
             $(document.body).on("click", ".tweet-reply", function (e) {
                 e.preventDefault();
                 var this_ = $(this);
-                var parentId = this_.attr("data-id");
-
-            })
-
-
-             $(document.body).on("click", ".tweet-reply", function (e) {
-                e.preventDefault();
-                var this_ = $(this);
                 var parentID = this_.attr("data-id");
                 var username = this_.attr("data-user");
-
+                var content = this_.parent().parent().find(".content").text();
                 $("#replyModal").modal({
 
                 });
-
+                $("#replyModal textarea").after("<input type='hidden' value='" + parentID + "' name='parent_id' />");
+                $("#replyModal textarea").after("<input type='hidden' value='" + true + "' name='reply' />");
                 $("#replyModal textarea").val("@" + username + " ");
+                 $("#replyModal #replyModalLabel").text("Reply to " + content)
                 $("#replyModal").on ("shown.bs.modal", function () {
                     $('textarea').focus();
 
@@ -163,13 +157,16 @@
                 var isReply = tweetValue.reply;
                 if(tweetValue.parent && !isReply){
                     // there is a retweet
-                    mainTweet = tweetValue.parent;
-                    preContent = "<span class='gray-color'>Retweet via <a href='" + mainTweet.user.url + "'> " + mainTweet.user.username + " </a> on " + mainTweet.date_display + "</span><br/>"
+                    tweetValue = tweetValue.parent;
+                    preContent = "<span class='gray-color'>Retweet via <a href='" + tweetValue.user.url + "'> " +tweetValue.user.username + " </a> on " + tweetValue.date_display + "</span><br/>"
                 }else if (tweetValue.parent && isReply){
-                    mainTweet = tweetValue.parent;
-                    preContent = "<span class='gray-color'>Reply to <a href='" + mainTweet.user.url + "'> @" + mainTweet.user.username + " </a></span><br/>"
+                    preContent = "<span class='gray-color'>Reply to <a href='" + tweetValue.parent.user.url + "'> @" + tweetValue.parent.user.username + " </a></span><br/>"
                 }
-                 tweetContent=tweetValue.content + "<br/> via: <a href='" + tweetValue.user.url + "'>" + tweetValue.user.username + "</a> | " + tweetValue.date_display + " | " + "<a href='/tweet/" + tweetValue.id  + "'" + ">View</a>" + " | " + "<a class='retweet' href='/tweet/" + tweetValue.id  + "/retweet'" + ">Retweet</a>" + "| <a href='#' class='tweet-like' data-id='" + tweetValue.id + "'> " + verb +" ("+ tweetValue.likes + ") </a>" + "| <a href='#' class='tweet-reply'  data-user='"+ tweetValue.user.username +"' data-id='" + tweetValue.id + "'> Reply </a>";
+
+
+                  tweetContent = "<span class='content'>" + tweetValue.content + "</span><br/> via <a href='" + tweetValue.user.url + "'>" + tweetValue.user.username + "</a> | " + tweetValue.date_display + " | " + "<a href='/tweet/" + tweetValue.id + "'>View</a> | " + "<a class='retweetBtn' href='/tweet/" + tweetValue.id + "/retweet/'>Retweet</a>" + " | <a href='#' class='tweet-like' data-id='" + tweetValue.id + "''>" + verb + " (" + tweetValue.likes + ")</a>" + " | <a href='#' class='tweet-reply' data-user='" + tweetValue.user.username + "' data-id='" + tweetValue.id + "''>Reply</a>"
+
+
                 if (preContent){
                     container = "<div class=\"media\"><div class=\"media-body\">" + preContent + tweetContent + "</div></div><hr />";
                 }else{
@@ -260,7 +257,7 @@
             var charsStart = 140;
             var charsCurrent = 0;
 
-            $(".tweet-form").append("<span class='tweetCharsLeft'>" + charsStart + "</span>");
+            $(".tweet-form").append("<span class='tweetCharsLeft' style='margin-left: 20px;'>" + charsStart + "</span>");
 
             $(".tweet-form textarea").keyup(function (event) {
                 var tweetValue = $(this).val()
@@ -289,6 +286,7 @@
                 event.preventDefault();
                 var this_ = $(this);
                 var formData = this_.serialize();
+                console.log(formData);
                 if (charsCurrent >= 0){
                     $.ajax({
                         // forma de usarlo desde un .js separado
