@@ -9,7 +9,7 @@ from django.db.models.signals import post_save
 from .validators import validate_content
 
 
-from src.hashtags.signals import parsed_hashtags
+from hashtags.signals import parsed_hashtags
 # Create your models here.
 
 class TweetManager(models.Manager):
