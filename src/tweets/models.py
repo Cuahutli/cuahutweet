@@ -22,7 +22,8 @@ class TweetManager(models.Manager):
             user=user, parent= og_parent).filter(
                 timestamp__year=timezone.now().year,
                 timestamp__month = timezone.now().month,
-                timestamp__day = timezone.now().day
+                timestamp__day = timezone.now().day,
+                reply = False,
             )
         if qs.exists():
             return None
