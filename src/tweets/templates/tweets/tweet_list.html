@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load recommended %}
 {% block scripts %}
     <script>
         $(document).ready(function () {
@@ -10,10 +10,13 @@
 {%  endblock scripts %}
 {% block content %}
     <div class="row">
-        <div class="col-sm-3 col-xs-12" style="background-color: red;">
+        <div class="col-sm-3 col-xs-12">
             <h1>
-                {{ request.user.username }}
+                <a href="/{{request.user.username}}">{{ request.user.username }}</a>
             </h1>
+            <hr />
+            <p class="lead">Podrías seguir a:</p>
+            {% recommended request.user%}
         </div>
         <div class="col-sm-9">
             {% if not request.GET.q %}

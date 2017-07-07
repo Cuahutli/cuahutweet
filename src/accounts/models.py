@@ -39,6 +39,13 @@ class UserProfileManager(models.Manager):
 
         return False
 
+    def recommended(self, user, limit_to=10):
+        profile = user.profile
+        following = profile.following.all()
+        following = profile.get_following()
+        qs = self.get_queryset().exclude(user__in=following).exclude(id=profile.id).order_by("?")[:limit_to]
+        return qs
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='profile') #user.profile

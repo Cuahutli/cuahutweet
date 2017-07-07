@@ -1,3 +1,9 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
 src/uscit/settings/local.py
 .DS_Store
 /Include
@@ -15,4 +21,3 @@ static-cdn
 src/media/
 .vscode
 *.sublime-workspace
-*.py[cod]
