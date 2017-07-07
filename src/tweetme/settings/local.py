@@ -61,6 +61,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'tweetme.urls'
+LOGIN_URL = "/login"
+LOGIN_REDIRECT_URL = "/"
 
 TEMPLATES = [
     {
@@ -132,7 +134,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     # will not be server, long term storage
-    os.path.join(BASE_DIR, "static-storage"),
+    os.path.join(BASE_DIR, "static"),
 ]
 
 #add root STATICS
