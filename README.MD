@@ -179,7 +179,7 @@ Una vez implementado el proyecto para actualizarlo con los cambios que se hayan 
     
 - Actualizar la Base de Datos por si se realizaron cambios:
     ```sh
-    cd src &&  python manage.py migrate && python manage.py makemigrations
+    cd src &&  python manage.py makemigrations && python manage.py  migrate
     ```
 
 - Recolectar estáticos
