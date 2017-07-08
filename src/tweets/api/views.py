@@ -48,7 +48,8 @@ class TweetDetailAPIView(generics.ListAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetModelSerializer
     pagination_class = StandardResultsPagination
-    permission_classes = [permissions.AllowAny]
+    #permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self, *args, **kwargs):
         tweet_id = self.kwargs.get("pk")
@@ -60,6 +61,7 @@ class SearchTweetAPIView(generics.ListAPIView):
     queryset = Tweet.objects.all().order_by("-timestamp")
     serializer_class = TweetModelSerializer
     pagination_class = StandardResultsPagination
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_serializer_context(self, *args, **kwargs):
             context = super(SearchTweetAPIView, self).get_serializer_context(*args, **kwargs)
@@ -79,6 +81,7 @@ class SearchTweetAPIView(generics.ListAPIView):
 class TweetListAPIView(generics.ListAPIView):
     serializer_class = TweetModelSerializer
     pagination_class = StandardResultsPagination
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_serializer_context(self, *args, **kwargs):
         context = super(TweetListAPIView, self).get_serializer_context(*args, **kwargs)

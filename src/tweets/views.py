@@ -15,7 +15,7 @@ from .models import Tweet
 from .forms import TweetModelForm
 from .mixins import FormUserNeededMixin, UserOwnerMixin
 
-class RetweetView(View):
+class RetweetView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         tweet = get_object_or_404(Tweet, pk=pk)
         if request.user.is_authenticated():
@@ -51,7 +51,7 @@ class TweetDeleteView(LoginRequiredMixin, DeleteView):
 # List/Search
 
 # Retrieve
-class TweetDetailView(DetailView):
+class TweetDetailView(LoginRequiredMixin, DetailView):
     queryset = Tweet.objects.all()
 
     def get_object(self):
@@ -61,7 +61,7 @@ class TweetDetailView(DetailView):
         obj = get_object_or_404(Tweet, pk=pk)
         return obj
 
-class TweetListView(ListView):
+class TweetListView(LoginRequiredMixin, ListView):
     #queryset = Tweet.objects.all()
 
     def get_queryset(self, *args, **kwargs):
