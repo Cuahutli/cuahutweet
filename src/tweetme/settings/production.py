@@ -14,4 +14,4 @@ STATICFILES_DIRS = [
 
 #add root STATICS
 # will be served
-STATIC_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "static-cdn")#CDN
+STATIC_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "static-cdn", 'static')#CDN
