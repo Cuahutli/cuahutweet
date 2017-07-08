@@ -105,7 +105,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -115,6 +115,6 @@ STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-SESSION_COOKIE_AGE = 30
+SESSION_COOKIE_AGE = 180000
 SESSION_COOKIE_NAME = 'samaosessionid'
 SESSION_SAVE_EVERY_REQUEST = True
