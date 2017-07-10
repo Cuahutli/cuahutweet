@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django.contrib.sites',
     # third-party apps
     'crispy_forms',
     'rest_framework',
@@ -118,3 +118,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 SESSION_COOKIE_AGE = 180000
 SESSION_COOKIE_NAME = 'samaosessionid'
 SESSION_SAVE_EVERY_REQUEST = True
+
+SITE_ID=2
